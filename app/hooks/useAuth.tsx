@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 
 type Authentication = {
 	logIn: () => void;
@@ -14,4 +14,10 @@ const AuthContext = createContext<Authentication>({
 	isLoading: false,
 });
 
-export default function useAuth() {}
+export default function useAuth() {
+	const authContext = useContext(AuthContext);
+
+	if (!authContext) throw new Error(`useAuth must be used inside AuthProvider`);
+
+	return authContext;
+}
