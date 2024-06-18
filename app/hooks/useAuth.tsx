@@ -21,3 +21,7 @@ export function useAuth() {
 
 	return authContext;
 }
+
+export function AuthProvider() {
+	// TODO - SAVE AND LOAD FROM STORAGE VIA STORAGE HOOK.
+}
