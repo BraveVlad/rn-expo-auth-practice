@@ -1,8 +1,12 @@
 import { getItemAsync } from "expo-secure-store";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Platform } from "react-native";
 
-async function getNativeStorage(key: string) {
+function setStorageItemAsync(key: string, value: string | null) {
+	throw new Error("Function not implemented.");
+}
+
+async function getNativeStorageAsync(key: string) {
 	return await getItemAsync(key);
 }
 
@@ -22,10 +26,20 @@ export default function useStorage(key: string) {
 			const loadedData =
 				Platform.OS === "web"
 					? getWebStorage(key)
-					: await getNativeStorage(key);
+					: await getNativeStorageAsync(key);
 			setStorageState(loadedData);
 		};
 
 		getFromStorage();
 	}, [key]);
+
+	const saveValue = useCallback(
+		(value: string | null) => {
+			setStorageState(value);
+			setStorageItemAsync(key, value);
+		},
+		[key]
+	);
+
+	return [storageState, saveValue];
 }
