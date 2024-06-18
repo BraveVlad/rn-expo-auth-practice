@@ -6,7 +6,11 @@ function getNativeStorage(key: string) {
 }
 
 function getWebStorage(key: string) {
-	return "";
+	try {
+		return localStorage.getItem(key);
+	} catch (error) {
+		throw new Error(`Unable to use local storage ${error}`);
+	}
 }
 
 export default function useStorage(key: string) {
