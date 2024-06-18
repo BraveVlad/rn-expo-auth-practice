@@ -14,7 +14,7 @@ const AuthContext = createContext<Authentication>({
 	isLoading: false,
 });
 
-export default function useAuth() {
+export function useAuth() {
 	const authContext = useContext(AuthContext);
 
 	if (!authContext) throw new Error(`useAuth must be used inside AuthProvider`);
