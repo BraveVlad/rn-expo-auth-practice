@@ -4,15 +4,6 @@ import { useAuth } from "../../hooks/useAuth";
 import { Redirect } from "expo-router";
 
 export default function MainApp() {
-	const { session, isLoading } = useAuth();
-
-	if (isLoading) {
-		return <Text>Loading...</Text>;
-	}
-
-	if (!session) {
-		return <Redirect href={""} />;
-	}
 	return (
 		<View style={styles.container}>
 			<Text>Welcome to logged in main screen!</Text>
