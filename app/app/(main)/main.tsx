@@ -1,13 +1,20 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 import { useAuth } from "../../hooks/useAuth";
-import { Redirect } from "expo-router";
+import { Redirect, router } from "expo-router";
 
 export default function MainApp() {
+	const { logOut } = useAuth();
+
+	function handleLogOut(): void {
+		logOut();
+		router.replace("/");
+	}
+
 	return (
 		<View style={styles.container}>
 			<Text>Welcome to logged in main screen!</Text>
-			<StatusBar style="auto" />
+			<Button title="Log Out" onPress={handleLogOut} />
 		</View>
 	);
 }
