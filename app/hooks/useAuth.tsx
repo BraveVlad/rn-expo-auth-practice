@@ -29,8 +29,13 @@ export function AuthProvider({ children }: PropsWithChildren) {
 	return (
 		<AuthContext.Provider
 			value={{
-				logIn: () => {},
-				logOut: () => {},
+				logIn: () => {
+					//login logic
+					saveSession("STUB FOR SESSION KEY / USERNAME");
+				},
+				logOut: () => {
+					saveSession(null);
+				},
 				session,
 				isLoading,
 			}}
