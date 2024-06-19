@@ -2,8 +2,28 @@ import { getItemAsync } from "expo-secure-store";
 import { useCallback, useEffect, useState } from "react";
 import { Platform } from "react-native";
 
+function setWebStorage(key: string, value: string | null) {
+	if (!value) {
+		// delete local storage
+	}
+
+	// set local storage
+}
+
+function setNativeStorage(key: string, value: string | null) {
+	if (!value) {
+		// delete  storage
+	}
+
+	// set  storage
+}
+
 function setStorageItemAsync(key: string, value: string | null) {
-	throw new Error("Function not implemented.");
+	if (Platform.OS === "web") {
+		setWebStorage(key, value);
+	} else {
+		setNativeStorage(key, value);
+	}
 }
 
 async function getNativeStorageAsync(key: string) {
