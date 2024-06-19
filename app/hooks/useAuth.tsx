@@ -1,16 +1,17 @@
-import { createContext, useContext } from "react";
+import { PropsWithChildren, createContext, useContext } from "react";
+import useStorage from "./useStorage";
 
 type Authentication = {
 	logIn: () => void;
 	logOut: () => void;
-	session?: string;
+	session: string | null;
 	isLoading: boolean;
 };
 
 const AuthContext = createContext<Authentication>({
 	logIn: () => null,
 	logOut: () => null,
-	session: undefined,
+	session: null,
 	isLoading: false,
 });
 
@@ -22,6 +23,19 @@ export function useAuth() {
 	return authContext;
 }
 
-export function AuthProvider() {
-	// TODO - SAVE AND LOAD FROM STORAGE VIA STORAGE HOOK.
+export function AuthProvider({ children }: PropsWithChildren) {
+	const [session, saveSession, isLoading] = useStorage("auth-storage");
+
+	return (
+		<AuthContext.Provider
+			value={{
+				logIn: () => {},
+				logOut: () => {},
+				session,
+				isLoading,
+			}}
+		>
+			{children}
+		</AuthContext.Provider>
+	);
 }
