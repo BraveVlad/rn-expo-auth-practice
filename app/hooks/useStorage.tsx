@@ -3,16 +3,21 @@ import { useCallback, useEffect, useState } from "react";
 import { Platform } from "react-native";
 
 function setWebStorage(key: string, value: string | null) {
-	if (!value) {
-		// delete local storage
-	}
+	try {
+		if (!value) {
+			localStorage.removeItem(key);
+			return;
+		}
 
-	// set local storage
+		localStorage.setItem(key, value);
+	} catch (error) {
+		throw new Error(`Unable to use local storage ${error}`);
+	}
 }
 
 function setNativeStorage(key: string, value: string | null) {
 	if (!value) {
-		// delete  storage
+		// delete
 	}
 
 	// set  storage
