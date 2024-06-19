@@ -10,7 +10,7 @@ export default function MainLayout() {
 	}
 
 	if (!session) {
-		return <Redirect href={""} />;
+		return <Redirect href={"/login"} />;
 	}
 
 	return <Slot />;
