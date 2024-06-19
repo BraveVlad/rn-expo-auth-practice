@@ -1,11 +1,26 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
+import { useAuth } from "../hooks/useAuth";
+import { Redirect, router } from "expo-router";
 
 export default function PublicApp() {
+	const { session, isLoading } = useAuth();
+
+	function handleOnLogin(): void {
+		router.push("/login");
+	}
+
+	if (isLoading) {
+		return <Text>loading...</Text>;
+	}
+
+	if (session) {
+		return <Redirect href="/main/" />;
+	}
+
 	return (
 		<View style={styles.container}>
 			<Text>Welcome to Auth practice!</Text>
-			<StatusBar style="auto" />
+			<Button onPress={handleOnLogin} title="Log In" />
 		</View>
 	);
 }
