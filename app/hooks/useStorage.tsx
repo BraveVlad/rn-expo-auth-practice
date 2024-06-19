@@ -1,4 +1,4 @@
-import { getItemAsync } from "expo-secure-store";
+import { getItemAsync, setItemAsync, deleteItemAsync } from "expo-secure-store";
 import { useCallback, useEffect, useState } from "react";
 import { Platform } from "react-native";
 
@@ -15,15 +15,16 @@ function setWebStorage(key: string, value: string | null) {
 	}
 }
 
-function setNativeStorage(key: string, value: string | null) {
+async function setNativeStorage(key: string, value: string | null) {
 	if (!value) {
-		// delete
+		await deleteItemAsync(key);
+		return;
 	}
 
-	// set  storage
+	await setItemAsync(key, value);
 }
 
-function setStorageItemAsync(key: string, value: string | null) {
+function setStorageItem(key: string, value: string | null) {
 	if (Platform.OS === "web") {
 		setWebStorage(key, value);
 	} else {
@@ -56,8 +57,8 @@ export default function useStorage(key: string) {
 
 	const saveValue = useCallback(
 		(value: string | null) => {
+			setStorageItem(key, value);
 			setStorageState(value);
-			setStorageItemAsync(key, value);
 		},
 		[key]
 	);
