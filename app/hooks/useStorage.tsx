@@ -44,7 +44,13 @@ function getWebStorage(key: string) {
 	}
 }
 
-export default function useStorage(key: string) {
+export type useStorageReturnType = [
+	string | null,
+	(value: string | null) => void,
+	boolean
+];
+
+export default function useStorage(key: string): useStorageReturnType {
 	const [value, setStorageValue] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 
