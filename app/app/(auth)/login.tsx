@@ -1,11 +1,16 @@
 import { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { useAuth } from "../../hooks/useAuth";
+import { router } from "expo-router";
 
 export default function LoginScreen() {
+	const { logIn } = useAuth();
 	const [username, setUsername] = useState<string>("");
 
 	function handleLogin(): void {
 		console.log(username);
+		logIn();
+		router.replace("/main/");
 	}
 
 	return (
