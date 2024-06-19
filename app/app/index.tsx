@@ -10,7 +10,7 @@ export default function PublicApp() {
 	}
 
 	if (isLoading) {
-		return <Text>loading...</Text>;
+		return <View></View>;
 	}
 
 	if (session) {
