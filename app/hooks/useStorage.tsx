@@ -45,23 +45,31 @@ function getWebStorage(key: string) {
 }
 
 export default function useStorage(key: string) {
-	const [storageState, setStorageState] = useState<string | null>();
+	const [storageState, setStorageState] = useState<string | null>(null);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 
 	useEffect(() => {
+		setIsLoading(true);
 		if (Platform.OS === "web") {
 			setStorageState(getWebStorage(key));
+			setIsLoading(false);
 		} else {
-			getNativeStorageAsync(key).then((value) => setStorageState(value));
+			getNativeStorageAsync(key).then((value) => {
+				setStorageState(value);
+				setIsLoading(false);
+			});
 		}
 	}, [key]);
 
 	const saveValue = useCallback(
 		(value: string | null) => {
+			setIsLoading(true);
 			setStorageItem(key, value);
 			setStorageState(value);
+			setIsLoading(false);
 		},
 		[key]
 	);
 
-	return [storageState, saveValue];
+	return [storageState, saveValue, isLoading];
 }
