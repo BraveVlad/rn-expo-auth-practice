@@ -22,15 +22,11 @@ export default function useStorage(key: string) {
 	const [storageState, setStorageState] = useState<string | null>();
 
 	useEffect(() => {
-		const getFromStorage = async () => {
-			const loadedData =
-				Platform.OS === "web"
-					? getWebStorage(key)
-					: await getNativeStorageAsync(key);
-			setStorageState(loadedData);
-		};
-
-		getFromStorage();
+		if (Platform.OS === "web") {
+			setStorageState(getWebStorage(key));
+		} else {
+			getNativeStorageAsync(key).then((value) => setStorageState(value));
+		}
 	}, [key]);
 
 	const saveValue = useCallback(
